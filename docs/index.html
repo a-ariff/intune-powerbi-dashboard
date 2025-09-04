@@ -3,83 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intune Data Warehouse Power BI Dashboard</title>
+    <title>Intune Data Warehouse Power BI Dashboard | Professional Endpoint Management</title>
+    <meta name="description" content="Comprehensive Power BI dashboard for Microsoft Intune device compliance, security monitoring, and software inventory management. Built by @a-ariff">
+    <meta property="og:title" content="Intune Data Warehouse Power BI Dashboard">
+    <meta property="og:description" content="Professional endpoint management and compliance monitoring solution">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://intune-dashboard.aglobaltec.com">
+    
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🛡️%3C/text%3E%3C/svg%3E">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>🚀 Intune Data Warehouse Power BI Dashboard</h1>
-            <p>Professional endpoint management and compliance monitoring solution</p>
-        </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-icon">🛡️</span>
+                <span class="nav-title">Intune Dashboard</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="https://github.com/a-ariff/intune-powerbi-dashboard" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </nav>
 
-        <main class="main">
-            <section class="hero">
-                <div class="hero-content">
-                    <h2>Transform Your Intune Management</h2>
-                    <p>Comprehensive insights into device compliance, security posture, and software inventory with our professional Power BI dashboard solution.</p>
-                    
-                    <div class="stats">
-                        <div class="stat">
-                            <div class="stat-number">60+</div>
-                            <div class="stat-label">DAX Measures</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">4</div>
-                            <div class="stat-label">Data Sources</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">1500+</div>
-                            <div class="stat-label">Sample Records</div>
-                        </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>🚀 Latest Version 1.0.0</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Transform Your <span class="gradient-text">Intune Management</span> 
+                    with Professional Analytics
+                </h1>
+                
+                <p class="hero-description">
+                    Comprehensive Power BI dashboard providing real-time insights into device compliance, 
+                    security posture, and software inventory across your Microsoft Intune environment.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">60+</div>
+                        <div class="stat-label">DAX Measures</div>
                     </div>
-                    
-                    <div class="buttons">
-                        <a href="https://github.com/a-ariff/intune-powerbi-dashboard" class="btn btn-primary">View on GitHub</a>
-                        <a href="https://github.com/a-ariff/intune-powerbi-dashboard/releases" class="btn btn-secondary">Download</a>
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Data Sources</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1,500+</div>
+                        <div class="stat-label">Sample Records</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Open Source</div>
                     </div>
                 </div>
-            </section>
+                
+                <div class="hero-actions">
+                    <a href="https://github.com/a-ariff/intune-powerbi-dashboard/releases" class="btn btn-primary">
+                        <span>Download Dashboard</span>
+                    </a>
+                    <a href="#demo" class="btn btn-secondary">
+                        <span>View Live Demo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <section class="features">
-                <h2>Dashboard Features</h2>
-                <div class="feature-grid">
-                    <div class="feature">
-                        <div class="feature-icon">🛡️</div>
-                        <h3>Device Compliance</h3>
-                        <p>Track compliance rates across policies and platforms</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">📱</div>
-                        <h3>Software Inventory</h3>
-                        <p>Monitor application deployment and versions</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">🔐</div>
-                        <h3>Security Analysis</h3>
-                        <p>Comprehensive security posture monitoring</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">📊</div>
-                        <h3>Analytics</h3>
-                        <p>Advanced reporting and insights</p>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Dashboard Features</h2>
+                <p class="section-description">
+                    Everything you need to monitor your Microsoft Intune environment effectively
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Device Compliance</h3>
+                    <p>Real-time compliance monitoring across all policies and platforms with detailed violation tracking.</p>
+                    <div class="feature-metrics">
+                        <canvas id="complianceChart" width="280" height="140"></canvas>
                     </div>
                 </div>
-            </section>
-
-            <section class="demo">
-                <h2>Live Demo</h2>
-                <div class="demo-container">
-                    <canvas id="demoChart" width="400" height="200"></canvas>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Software Inventory</h3>
+                    <p>Complete application deployment monitoring with version management and security risk assessment.</p>
+                    <div class="feature-metrics">
+                        <canvas id="softwareChart" width="280" height="140"></canvas>
+                    </div>
                 </div>
-            </section>
-        </main>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Security Analysis</h3>
+                    <p>Comprehensive security posture monitoring with encryption status and threat detection capabilities.</p>
+                    <div class="feature-metrics">
+                        <canvas id="securityChart" width="280" height="140"></canvas>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Advanced Analytics</h3>
+                    <p>Detailed reporting with user management insights and comprehensive device lifecycle tracking.</p>
+                    <div class="feature-metrics">
+                        <canvas id="analyticsChart" width="280" height="140"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <footer class="footer">
-            <p>&copy; 2025 @a-ariff - Professional Intune Dashboard Solution</p>
-        </footer>
-    </div>
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Interactive Dashboard Preview</h2>
+                <p class="section-description">
+                    Experience the dashboard functionality with realistic sample data
+                </p>
+            </div>
+            
+            <div class="demo-container">
+                <div class="demo-content">
+                    <div class="demo-metrics">
+                        <div class="demo-metric">
+                            <div class="metric-value">94.2%</div>
+                            <div class="metric-label">Compliance Rate</div>
+                            <div class="metric-trend positive">↗ +2.3%</div>
+                        </div>
+                        <div class="demo-metric">
+                            <div class="metric-value">1,847</div>
+                            <div class="metric-label">Total Devices</div>
+                            <div class="metric-trend positive">↗ +15</div>
+                        </div>
+                        <div class="demo-metric">
+                            <div class="metric-value">98.7%</div>
+                            <div class="metric-label">Encryption Rate</div>
+                            <div class="metric-trend neutral">→ 0%</div>
+                        </div>
+                    </div>
+                    <canvas id="overviewChart" width="600" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/api/">Sample Data API</a></li>
+                        <li><a href="https://github.com/a-ariff/intune-powerbi-dashboard">Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="https://linkedin.com/in/ariff-aglobal">LinkedIn</a></li>
+                        <li><a href="https://aglobaltec.com">Portfolio</a></li>
+                        <li><a href="mailto:ariff@aglobaltec.com">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ariff @ Aglobal Technologies. Open source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="app.js"></script>
 </body>

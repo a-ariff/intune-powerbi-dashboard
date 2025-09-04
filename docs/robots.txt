@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://intune-dashboard.aglobaltec.com/sitemap.xml
