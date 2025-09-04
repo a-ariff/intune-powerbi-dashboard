@@ -1,0 +1,86 @@
+// Device Compliance Measures for Intune Dashboard
+// Created by @a-ariff
+
+// Total Device Count
+Total Devices = COUNTROWS('Devices')
+
+// Compliant Device Count  
+Compliant Devices = 
+CALCULATE(
+    COUNTROWS('Devices'),
+    'Devices'[complianceState] = "compliant"
+)
+
+// Compliance Rate Percentage
+Compliance Rate = 
+VAR CompliantCount = [Compliant Devices]
+VAR TotalCount = [Total Devices]
+RETURN
+    IF(
+        TotalCount > 0,
+        DIVIDE(CompliantCount, TotalCount, 0),
+        0
+    )
+
+// Non-Compliant Devices
+Non-Compliant Devices = 
+CALCULATE(
+    COUNTROWS('Devices'),
+    'Devices'[complianceState] = "noncompliant"
+)
+
+// Devices by Platform
+Windows Devices = 
+CALCULATE(
+    COUNTROWS('Devices'),
+    'Devices'[operatingSystem] = "Windows"
+)
+
+iOS Devices = 
+CALCULATE(
+    COUNTROWS('Devices'),
+    'Devices'[operatingSystem] = "iOS"
+)
+
+Android Devices = 
+CALCULATE(
+    COUNTROWS('Devices'),
+    'Devices'[operatingSystem] = "Android"
+)
+
+// Security Metrics
+Encrypted Devices = 
+CALCULATE(
+    COUNTROWS('Devices'),
+    'Devices'[isEncrypted] = TRUE()
+)
+
+Encryption Rate = 
+VAR EncryptedCount = [Encrypted Devices]
+VAR TotalCount = [Total Devices]
+RETURN
+    IF(
+        TotalCount > 0,
+        DIVIDE(EncryptedCount, TotalCount, 0),
+        0
+    )
+
+// Time Intelligence
+Devices Added This Month = 
+VAR CurrentMonth = MONTH(TODAY())
+VAR CurrentYear = YEAR(TODAY())
+RETURN
+    CALCULATE(
+        COUNTROWS('Devices'),
+        MONTH('Devices'[enrolledDateTime]) = CurrentMonth,
+        YEAR('Devices'[enrolledDateTime]) = CurrentYear
+    )
+
+// Conditional Formatting for Compliance
+Compliance Status Color = 
+SWITCH(
+    TRUE(),
+    [Compliance Rate] >= 0.95, "Green",
+    [Compliance Rate] >= 0.85, "Yellow", 
+    "Red"
+)

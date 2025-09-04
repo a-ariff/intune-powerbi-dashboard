@@ -1,0 +1,6 @@
+deviceId,deviceName,operatingSystem,osVersion,complianceState,isEncrypted,lastSyncDateTime,enrolledDateTime
+001,DESKTOP-ABC123,Windows,10.0.19045,compliant,TRUE,2025-09-05T10:30:00Z,2025-01-15T09:00:00Z
+002,iPhone-001,iOS,16.6,compliant,TRUE,2025-09-05T11:15:00Z,2025-02-20T14:30:00Z
+003,LAPTOP-XYZ789,Windows,11.0.22000,noncompliant,FALSE,2025-09-04T16:45:00Z,2025-03-10T11:20:00Z
+004,Android-Device-1,Android,13.0,compliant,TRUE,2025-09-05T09:20:00Z,2025-04-05T13:45:00Z
+005,MacBook-Pro-001,macOS,13.5,compliant,TRUE,2025-09-05T08:30:00Z,2025-05-12T10:15:00Z
