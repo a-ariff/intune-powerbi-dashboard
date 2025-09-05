@@ -1,4 +1,4 @@
-# 📊 Intune Power BI Dashboard
+[# 📊 Intune Power BI Dashboard
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=power-bi&logoColor=black)](https://powerbi.microsoft.com/)
@@ -123,4 +123,4 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 [![Powered by](https://img.shields.io/badge/Powered%20by-Microsoft%20Power%20BI-yellow.svg)](https://powerbi.microsoft.com/)
 [![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-success.svg)](https://github.com/a-ariff/intune-powerbi-dashboard)
 
-</div>
+</div>](https://www.linkedin.com/in/ariff-mohamed/)
