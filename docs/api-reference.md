@@ -197,5 +197,4 @@ $devices = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/deviceManage
 
 - [Microsoft Graph API Documentation](https://docs.microsoft.com/en-us/graph/)
 - [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
-- [Intune Data Warehouse API](https://learn.microsoft.com/mem/intune/developer/reports-ref-intune-data-warehouse)
 - [Power BI REST API](https://docs.microsoft.com/en-us/rest/api/power-bi/)
