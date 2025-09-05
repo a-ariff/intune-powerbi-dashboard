@@ -26,11 +26,13 @@ This project provides a complete dashboard solution for Microsoft Intune adminis
 ## Installation
 
 ### Option 1: Use Pre-built Template
+
 1. Download the `.pbit` file from [power-bi-files](../power-bi-files/)
 2. Open with Power BI Desktop
 3. Configure authentication using our [Authentication Guide](authentication-guide.md)
 
 ### Option 2: Build from Source
+
 1. Clone this repository
 2. Review the [src/](../src/) folder for M query files
 3. Follow the setup instructions in the main [README](../README.md)
@@ -45,10 +47,11 @@ This project provides a complete dashboard solution for Microsoft Intune adminis
 ## Support
 
 For issues and questions:
+
 - Check the [Issues](../../../issues) section
 - Review the [Authentication Guide](authentication-guide.md)
 - Consult the main [README](../README.md) for troubleshooting
 
 ---
 
-**License**: MIT | **Author**: [a-ariff](https://github.com/a-ariff)
+**License**: MIT | **Author**: [Ariff Mohamed](https://github.com/a-ariff)
