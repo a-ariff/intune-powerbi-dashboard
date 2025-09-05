@@ -11,11 +11,13 @@ This repository includes Docker packaging for easy deployment and distribution o
 ### Pulling and Running the Image
 
 Pull the latest Docker image from GitHub Container Registry:
+
 ```bash
 docker pull ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
 
 Run the container:
+
 ```bash
 docker run -d -p 8000:8000 ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
@@ -25,6 +27,7 @@ Access the dashboard at `http://localhost:8000`
 ### Building from Source
 
 Alternatively, build the image locally:
+
 ```bash
 git clone https://github.com/a-ariff/intune-powerbi-dashboard.git
 cd intune-powerbi-dashboard
@@ -70,7 +73,6 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 ## 🔗 Important Links
 
 ### 📚 **Documentation & Resources**
-
 - [📖 User Guide](./docs/user-guide.md) - Comprehensive usage instructions
 - [🔧 API Documentation](./docs/api-reference.md) - Technical implementation details
 - [🎨 Customization Guide](./docs/customization.md) - Branding and theme modifications
@@ -78,17 +80,14 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 - [📊 Sample Reports](./docs/sample-reports.md) - Pre-built report templates
 
 ### 🌐 **External Resources**
-
 - [Microsoft Intune Documentation](https://docs.microsoft.com/en-us/mem/intune/)
 - [Power BI Developer Center](https://powerbi.microsoft.com/developers/)
 - [Microsoft Graph API Reference](https://docs.microsoft.com/en-us/graph/)
 - [Azure AD App Registration Guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
 
 ### 🎯 **Live Demo & Examples**
-
 - [🔗 Interactive Demo](https://a-ariff.github.io/intune-powerbi-dashboard/) - Try the dashboard online
 - [📱 Mobile Preview](https://a-ariff.github.io/intune-powerbi-dashboard/mobile) - Mobile-optimized view
-- [🎥 Video Walkthrough](https://youtu.be/demo-video-id) - Complete setup tutorial
 
 ---
 
@@ -99,7 +98,6 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 🎯 **Specializing in:** Microsoft 365, Power Platform, Azure Infrastructure, and Enterprise Security
 
 📧 **Get in Touch:**
-
 - 🐙 GitHub: [@a-ariff](https://github.com/a-ariff)
 - 💼 LinkedIn: [Connect with Ariff Mohamed](https://www.linkedin.com/in/ariff-mohamed/)
 - 🌐 Portfolio: [Professional Projects](https://a-ariff.github.io)
