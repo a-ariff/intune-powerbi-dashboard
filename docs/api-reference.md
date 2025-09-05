@@ -138,7 +138,7 @@ GET https://graph.microsoft.com/v1.0/groups
 • 403 Forbidden: Insufficient permissions  
 • 404 Not Found: Resource not found  
 • 429 Too Many Requests: Rate limit exceeded  
-• 500 Internal Server Error: Server error  
+• 500 Internal Server Error: Server error
 
 ### Retry Logic
 
@@ -150,7 +150,7 @@ GET https://graph.microsoft.com/v1.0/groups
 
 • Per Application: 10,000 requests per 10 minutes  
 • Per User: 1,000 requests per 10 minutes  
-• Batch Requests: Up to 20 individual requests  
+• Batch Requests: Up to 20 individual requests
 
 ## Examples
 
@@ -197,5 +197,5 @@ $devices = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/deviceManage
 
 - [Microsoft Graph API Documentation](https://docs.microsoft.com/en-us/graph/)
 - [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
-- [Intune Data Warehouse API](https://docs.microsoft.com/en-us/mem/intune/developer/intune-data-warehouse-api)
+- [Intune Data Warehouse API](https://learn.microsoft.com/mem/intune/developer/reports-ref-intune-data-warehouse)
 - [Power BI REST API](https://docs.microsoft.com/en-us/rest/api/power-bi/)
