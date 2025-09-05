@@ -35,7 +35,7 @@ Permissions Required:
    - Tenant ID
    - Client ID
    - Client Secret
-   - Scope: https://graph.microsoft.com/.default
+   - Scope: `https://graph.microsoft.com/.default` (OAuth scope string for Microsoft Graph permissions - see [Microsoft Graph permissions reference](https://docs.microsoft.com/en-us/graph/permissions-reference))
 
 2. **Token Acquisition**
    - POST to: `https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token`
@@ -46,6 +46,7 @@ Permissions Required:
 ### Device Management
 
 #### Get All Managed Devices
+
 ```
 GET https://graph.microsoft.com/v1.0/deviceManagement/managedDevices
 ```
@@ -58,11 +59,13 @@ GET https://graph.microsoft.com/v1.0/deviceManagement/managedDevices
 - lastSyncDateTime: Last sync timestamp
 
 #### Get Device Compliance Policies
+
 ```
 GET https://graph.microsoft.com/v1.0/deviceManagement/deviceCompliancePolicies
 ```
 
 #### Get Device Configurations
+
 ```
 GET https://graph.microsoft.com/v1.0/deviceManagement/deviceConfigurations
 ```
@@ -70,11 +73,13 @@ GET https://graph.microsoft.com/v1.0/deviceManagement/deviceConfigurations
 ### Application Management
 
 #### Get Mobile Apps
+
 ```
 GET https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps
 ```
 
 #### Get App Installation Status
+
 ```
 GET https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/{app-id}/deviceStatuses
 ```
@@ -82,11 +87,13 @@ GET https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/{app-id}/dev
 ### User and Group Management
 
 #### Get Users
+
 ```
 GET https://graph.microsoft.com/v1.0/users
 ```
 
 #### Get Groups
+
 ```
 GET https://graph.microsoft.com/v1.0/groups
 ```
@@ -94,6 +101,7 @@ GET https://graph.microsoft.com/v1.0/groups
 ## Response Formats
 
 ### Standard Response Structure
+
 ```json
 {
   "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#...",
@@ -110,6 +118,7 @@ GET https://graph.microsoft.com/v1.0/groups
 ```
 
 ### Error Response
+
 ```json
 {
   "error": {
@@ -124,12 +133,12 @@ GET https://graph.microsoft.com/v1.0/groups
 
 ### Common Error Codes
 
-- **400 Bad Request**: Invalid request syntax
-- **401 Unauthorized**: Authentication failed
-- **403 Forbidden**: Insufficient permissions
-- **404 Not Found**: Resource not found
-- **429 Too Many Requests**: Rate limit exceeded
-- **500 Internal Server Error**: Server error
+• 400 Bad Request: Invalid request syntax  
+• 401 Unauthorized: Authentication failed  
+• 403 Forbidden: Insufficient permissions  
+• 404 Not Found: Resource not found  
+• 429 Too Many Requests: Rate limit exceeded  
+• 500 Internal Server Error: Server error  
 
 ### Retry Logic
 
@@ -139,13 +148,14 @@ GET https://graph.microsoft.com/v1.0/groups
 
 ## Rate Limits
 
-- **Per Application**: 10,000 requests per 10 minutes
-- **Per User**: 1,000 requests per 10 minutes
-- **Batch Requests**: Up to 20 individual requests
+• Per Application: 10,000 requests per 10 minutes  
+• Per User: 1,000 requests per 10 minutes  
+• Batch Requests: Up to 20 individual requests  
 
 ## Examples
 
 ### PowerBI M Query Example
+
 ```m
 let
     // Authentication
@@ -164,6 +174,7 @@ in
 ```
 
 ### PowerShell Example
+
 ```powershell
 # Get Access Token
 $tokenUrl = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token"
@@ -186,5 +197,5 @@ $devices = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/deviceManage
 
 - [Microsoft Graph API Documentation](https://docs.microsoft.com/en-us/graph/)
 - [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
-- [Intune Data Warehouse API](https://docs.microsoft.com/en-us/mem/intune/developer/reports-nav-intune-data-warehouse)
+- [Intune Data Warehouse API](https://docs.microsoft.com/en-us/mem/intune/developer/intune-data-warehouse-api)
 - [Power BI REST API](https://docs.microsoft.com/en-us/rest/api/power-bi/)
