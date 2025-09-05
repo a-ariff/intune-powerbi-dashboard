@@ -1,15 +1,6 @@
 # 📊 Intune Power BI Dashboard
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=power-bi&logoColor=black)](https://powerbi.microsoft.com/)
-[![Microsoft Intune](https://img.shields.io/badge/Microsoft%20Intune-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)](https://intune.microsoft.com/)
-[![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=for-the-badge)]()
-[![Enterprise Grade](https://img.shields.io/badge/Grade-Enterprise-blue?style=for-the-badge)]()
-[![Security Compliant](https://img.shields.io/badge/Security-Compliant-green?style=for-the-badge)]()
-[![Microsoft Graph API](https://img.shields.io/badge/API-Microsoft%20Graph-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)]()
-[![Real-time Analytics](https://img.shields.io/badge/Analytics-Real--time-orange?style=for-the-badge)]()
-[![GitHub stars](https://img.shields.io/github/stars/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/network)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=power-bi&logoColor=black)](https://powerbi.microsoft.com/) [![Microsoft Intune](https://img.shields.io/badge/Microsoft%20Intune-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)](https://intune.microsoft.com/) [![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=for-the-badge)]() [![Enterprise Grade](https://img.shields.io/badge/Grade-Enterprise-blue?style=for-the-badge)]() [![Security Compliant](https://img.shields.io/badge/Security-Compliant-green?style=for-the-badge)]() [![Microsoft Graph API](https://img.shields.io/badge/API-Microsoft%20Graph-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)]() [![Real-time Analytics](https://img.shields.io/badge/Analytics-Real--time-orange?style=for-the-badge)]() [![GitHub stars](https://img.shields.io/github/stars/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/stargazers) [![GitHub forks](https://img.shields.io/github/forks/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/network)
 
 Comprehensive Power BI solution for monitoring Microsoft Intune device compliance, software inventory, and endpoint security
 
@@ -20,13 +11,11 @@ This repository includes Docker packaging for easy deployment and distribution o
 ### Pulling and Running the Image
 
 Pull the latest Docker image from GitHub Container Registry:
-
 ```bash
 docker pull ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
 
 Run the container:
-
 ```bash
 docker run -d -p 8000:8000 ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
@@ -36,7 +25,6 @@ Access the dashboard at `http://localhost:8000`
 ### Building from Source
 
 Alternatively, build the image locally:
-
 ```bash
 git clone https://github.com/a-ariff/intune-powerbi-dashboard.git
 cd intune-powerbi-dashboard
@@ -111,8 +99,9 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 🎯 **Specializing in:** Microsoft 365, Power Platform, Azure Infrastructure, and Enterprise Security
 
 📧 **Get in Touch:**
+
 - 🐙 GitHub: [@a-ariff](https://github.com/a-ariff)
-- 💼 LinkedIn: [Connect with Ariff Mohamed](https://linkedin.com/in/a-ariff)
+- 💼 LinkedIn: [Connect with Ariff Mohamed](https://www.linkedin.com/in/ariff-mohamed/)
 - 🌐 Portfolio: [Professional Projects](https://a-ariff.github.io)
 - 📧 Email: [Contact for Consulting](mailto:contact@a-ariff.dev)
 
@@ -122,8 +111,6 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 
 **⭐ If this project helped you, please consider giving it a star! ⭐**
 
-[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/a-ariff)
-[![Powered by](https://img.shields.io/badge/Powered%20by-Microsoft%20Power%20BI-yellow.svg)](https://powerbi.microsoft.com/)
-[![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-success.svg)](https://github.com/a-ariff/intune-powerbi-dashboard)
+[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/a-ariff) [![Powered by](https://img.shields.io/badge/Powered%20by-Microsoft%20Power%20BI-yellow.svg)](https://powerbi.microsoft.com/) [![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-success.svg)](https://github.com/a-ariff/intune-powerbi-dashboard)
 
 </div>
