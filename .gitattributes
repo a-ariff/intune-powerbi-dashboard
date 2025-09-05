@@ -1,5 +1,10 @@
 # Language detection overrides
 *.m linguist-language=PowerQuery-M
+*.pq linguist-language=M
 
 # Generated files
 power-bi-files/* linguist-generated=true
+power-bi-files/**/*.* linguist-documentation=false
+
+# Source files
+src/**/*.m linguist-language=PowerQuery-M

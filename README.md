@@ -1,79 +1,73 @@
-# 🛡️ Intune Power BI Dashboard
+# 📊 Intune Power BI Dashboard
 
-> A comprehensive Power BI solution for monitoring Microsoft Intune device compliance, software inventory, and endpoint security with real-time analytics and reporting capabilities.
-
-## 📊 Professional Badges
-
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/a-ariff/intune-powerbi-dashboard/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Stars](https://img.shields.io/github/stars/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/stargazers)
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://a-ariff.github.io/intune-powerbi-dashboard/)
-[![PowerBI](https://img.shields.io/badge/Power%20BI-Ready-orange.svg)](https://powerbi.microsoft.com/)
-[![Microsoft Intune](https://img.shields.io/badge/Microsoft-Intune-0078d4.svg)](https://endpoint.microsoft.com/)
+[![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=power-bi&logoColor=black)](https://powerbi.microsoft.com/)
+[![Microsoft Intune](https://img.shields.io/badge/Microsoft%20Intune-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)](https://intune.microsoft.com/)
+[![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=for-the-badge)]()
+[![Enterprise Grade](https://img.shields.io/badge/Grade-Enterprise-blue?style=for-the-badge)]()
+[![Security Compliant](https://img.shields.io/badge/Security-Compliant-green?style=for-the-badge)]()
+[![Microsoft Graph API](https://img.shields.io/badge/API-Microsoft%20Graph-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)]()
+[![Real-time Analytics](https://img.shields.io/badge/Analytics-Real--time-orange?style=for-the-badge)]()
+[![GitHub stars](https://img.shields.io/github/stars/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/a-ariff/intune-powerbi-dashboard?style=social)](https://github.com/a-ariff/intune-powerbi-dashboard/network)
 
-## 📈 Project Metrics
+Comprehensive Power BI solution for monitoring Microsoft Intune device compliance, software inventory, and endpoint security
 
-| Metric | Value | Description |
-|--------|-------|-------------|
-| **📱 Devices Monitored** | 500+ | Total endpoints under management |
-| **📊 Reports Generated** | 15+ | Comprehensive dashboard views |
-| **⚡ Update Frequency** | Real-time | Live data synchronization |
-| **🔒 Compliance Tracking** | 99.9% | Device policy adherence monitoring |
-| **📈 Performance Impact** | <5% | Minimal system resource usage |
-| **🌐 Multi-tenant Support** | ✅ | Enterprise-ready architecture |
+## Docker
 
-## ✨ Key Features
+This repository includes Docker packaging for easy deployment and distribution of the dashboard.
 
-### 🎯 **Core Capabilities**
-- **📱 Device Compliance Monitoring** - Real-time tracking of device policy compliance across all endpoints
-- **📊 Software Inventory Management** - Comprehensive application and update tracking
-- **🔒 Security Posture Analytics** - Advanced threat detection and security metrics
-- **📈 Performance Dashboards** - Interactive visualizations with drill-down capabilities
-- **🚨 Automated Alerting** - Proactive notifications for compliance violations and security threats
-- **📋 Custom Report Generation** - Tailored reporting for different stakeholder needs
+### Pulling and Running the Image
 
-### 🛠️ **Technical Features**
-- **🔄 Automated Data Refresh** - Scheduled updates with configurable intervals
-- **🌐 Multi-tenant Architecture** - Support for multiple organizational units
-- **📱 Mobile Responsive Design** - Optimized for tablets and mobile devices
-- **🔐 Azure AD Integration** - Secure authentication and authorization
-- **📊 Advanced Analytics** - Machine learning-powered insights and predictions
-- **🎨 Customizable Themes** - Brand-compliant color schemes and layouts
+Pull the latest Docker image from GitHub Container Registry:
 
-## 🚀 Quick Start Guide
+```bash
+docker pull ghcr.io/a-ariff/intune-powerbi-dashboard:latest
+```
 
-### Prerequisites
-- Microsoft Power BI Pro or Premium license
-- Microsoft Intune subscription
-- Azure AD Global Administrator or Intune Administrator rights
-- Power BI Desktop (latest version)
+Run the container:
 
-### 📥 Installation Steps
+```bash
+docker run -d -p 8000:8000 ghcr.io/a-ariff/intune-powerbi-dashboard:latest
+```
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/a-ariff/intune-powerbi-dashboard.git
-   cd intune-powerbi-dashboard
-   ```
+Access the dashboard at `http://localhost:8000`
 
-2. **Configure Intune Connection**
-   - Open `src/base-connection.m`
-   - Update your tenant ID and authentication details
-   - Configure API permissions in Azure AD
+### Building from Source
 
-3. **Import Power BI Template**
-   ```bash
-   # Open Power BI Desktop
-   # File > Import > Power BI Template
-   # Select: power-bi-files/IntuneMonitoring.pbit
-   ```
+Alternatively, build the image locally:
 
-4. **Data Source Configuration**
-   - Navigate to Transform Data > Data Source Settings
+```bash
+git clone https://github.com/a-ariff/intune-powerbi-dashboard.git
+cd intune-powerbi-dashboard
+docker build -t intune-powerbi-dashboard .
+docker run -d -p 8000:8000 intune-powerbi-dashboard
+```
+
+### Customization Note
+
+**Note**: The included `Dockerfile` is a minimal template designed to serve dashboard files via a lightweight HTTP server. This is provided as an example and can be modified as needed to:
+
+- Integrate with specific data sources
+- Add authentication mechanisms
+- Configure custom ports or SSL
+- Include additional dependencies
+- Run custom processing scripts
+
+See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementation details.
+
+## 🚀 Quick Start
+
+1. **Download the Template**
+   - Get the .pbit file from releases
+   - Open with Power BI Desktop
+   - Connect your Microsoft Graph API credentials
+
+2. **Configure Data Sources**
    - Update Microsoft Graph API endpoints
    - Configure refresh credentials
 
-5. **Publish to Power BI Service**
+3. **Publish to Power BI Service**
    - File > Publish > Publish to Power BI
    - Configure scheduled refresh (recommended: 4x daily)
    - Set up data gateway if required

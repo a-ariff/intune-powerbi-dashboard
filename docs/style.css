@@ -205,3 +205,111 @@ body {
         align-items: center;
     }
 }
+
+/* Demo Section Enhancements */
+.demo-tabs {
+    display: flex;
+    background: var(--gray-100);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.demo-tab {
+    flex: 1;
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.demo-tab:hover {
+    color: var(--primary-600);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.demo-tab.active {
+    background: var(--primary-600);
+    color: white;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.demo-panel {
+    display: none;
+    padding: 2rem;
+    background: var(--gray-50);
+    border-radius: 12px;
+}
+
+.demo-panel.active {
+    display: block;
+}
+
+.demo-panel h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--gray-800);
+}
+
+/* Feature Card Enhancements */
+.feature-stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.stat-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.stat-badge.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.stat-badge.warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.stat-badge.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.stat-badge.info {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+}
+
+/* Animation for metric values */
+.metric-value {
+    transition: all 0.3s ease;
+}
+
+.metric-trend {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.metric-trend.positive {
+    color: #10b981;
+}
+
+.metric-trend.negative {
+    color: #ef4444;
+}
+
+.metric-trend.neutral {
+    color: #6b7280;
+}

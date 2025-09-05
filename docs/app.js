@@ -1,317 +1,336 @@
-// Professional Intune Dashboard Interactive Application
+// Professional Intune Dashboard Interactive Demo
+let currentDemoTab = 'overview';
+let demoCharts = {};
+
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Initialize all charts
-    initializeCharts();
-    setupAnimations();
-    setupNavbarScroll();
-    
-    function initializeCharts() {
-        // Initialize feature charts
-        createComplianceChart();
-        createSoftwareChart(); 
-        createSecurityChart();
-        createAnalyticsChart();
-        createOverviewChart();
+    initializeAllCharts();
+    setupInteractivity();
+});
+
+function initializeAllCharts() {
+    // Wait for Chart.js to load
+    if (typeof Chart === 'undefined') {
+        setTimeout(initializeAllCharts, 100);
+        return;
     }
     
-    function createComplianceChart() {
-        const ctx = document.getElementById('complianceChart');
-        if (!ctx) return;
+    // Initialize feature charts
+    createComplianceChart();
+    createSoftwareChart(); 
+    createSecurityChart();
+    createAnalyticsChart();
+    
+    // Initialize demo charts
+    createOverviewChart();
+}
 
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Compliant', 'Non-Compliant', 'Unknown'],
-                datasets: [{
-                    data: [75, 20, 5],
-                    backgroundColor: ['#10b981', '#ef4444', '#f59e0b'],
-                    borderWidth: 0,
-                    cutout: '70%'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 15,
-                            font: { size: 12 }
-                        }
-                    }
-                }
+function setupInteractivity() {
+    // Smooth scrolling for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
             }
         });
-    }
+    });
 
-    function createSoftwareChart() {
-        const ctx = document.getElementById('softwareChart');
-        if (!ctx) return;
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Microsoft', 'Adobe', 'Google', 'Others'],
-                datasets: [{
-                    data: [45, 20, 15, 20],
-                    backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#8b5cf6'],
-                    borderRadius: 4,
-                    borderSkipped: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { display: false },
-                        ticks: { font: { size: 10 } }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { font: { size: 10 } }
-                    }
+    // Animated counters
+    const animateMetrics = () => {
+        const metrics = document.querySelectorAll('.metric-value');
+        metrics.forEach(metric => {
+            const target = parseFloat(metric.textContent);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
                 }
+                metric.textContent = current % 1 === 0 ? current.toString() : current.toFixed(1);
+                if (metric.textContent.includes('.')) {
+                    metric.textContent += '%';
+                }
+            }, 20);
+        });
+    };
+
+    // Trigger animations when demo section is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateMetrics();
+                observer.unobserve(entry.target);
             }
         });
+    });
+
+    const demoSection = document.querySelector('.demo-section');
+    if (demoSection) {
+        observer.observe(demoSection);
     }
+}
 
-    function createSecurityChart() {
-        const ctx = document.getElementById('securityChart');
-        if (!ctx) return;
+// Demo tab switching function
+function switchDemoTab(tabName) {
+    // Update tab buttons
+    document.querySelectorAll('.demo-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Security Score',
-                    data: [82, 85, 87, 89, 91, 94],
+    // Update panels
+    document.querySelectorAll('.demo-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    document.getElementById(`${tabName}-panel`).classList.add('active');
+
+    currentDemoTab = tabName;
+    
+    // Initialize specific charts for the tab
+    setTimeout(() => {
+        initializeDemoChart(tabName);
+    }, 100);
+}
+
+function initializeDemoChart(tabName) {
+    switch(tabName) {
+        case 'compliance':
+            createComplianceDetailChart();
+            break;
+        case 'security':
+            createSecurityDetailChart();
+            break;
+        case 'devices':
+            createDeviceDetailChart();
+            break;
+    }
+}
+
+// Chart creation functions
+function createComplianceChart() {
+    const canvas = document.getElementById('complianceChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            labels: ['Compliant', 'Non-Compliant', 'Unknown'],
+            datasets: [{
+                data: [75, 20, 5],
+                backgroundColor: ['#10b981', '#ef4444', '#f59e0b'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 15, font: { size: 11 } }
+                }
+            }
+        }
+    });
+}
+
+function createSoftwareChart() {
+    const canvas = document.getElementById('softwareChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: ['Office', 'Chrome', 'Teams', 'Adobe', 'Others'],
+            datasets: [{
+                data: [45, 35, 30, 20, 25],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#6b7280'],
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+function createSecurityChart() {
+    const canvas = document.getElementById('securityChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Security Score',
+                data: [82, 85, 87, 89, 91, 94],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, max: 100 },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+function createAnalyticsChart() {
+    const canvas = document.getElementById('analyticsChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: 'polarArea',
+        data: {
+            labels: ['Windows', 'iOS', 'Android', 'macOS'],
+            datasets: [{
+                data: [40, 25, 20, 15],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { size: 10 } } }
+            }
+        }
+    });
+}
+
+function createOverviewChart() {
+    const canvas = document.getElementById('overviewChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [
+                {
+                    label: 'Compliance Rate (%)',
+                    data: [94, 95, 93, 96, 94, 95, 94],
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Active Devices',
+                    data: [1820, 1835, 1840, 1847, 1850, 1845, 1847],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
                     tension: 0.4,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' } },
+            scales: {
+                y: { 
+                    type: 'linear', 
+                    position: 'left', 
+                    max: 100,
+                    title: { display: true, text: 'Compliance Rate (%)' }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        grid: { color: 'rgba(0,0,0,0.05)' },
-                        ticks: { font: { size: 10 } }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { font: { size: 10 } }
-                    }
+                y1: { 
+                    type: 'linear', 
+                    position: 'right',
+                    title: { display: true, text: 'Device Count' },
+                    grid: { drawOnChartArea: false }
                 }
             }
-        });
-    }
+        }
+    });
+}
 
-    function createAnalyticsChart() {
-        const ctx = document.getElementById('analyticsChart');
-        if (!ctx) return;
+function createComplianceDetailChart() {
+    const canvas = document.getElementById('complianceDetailChart');
+    if (!canvas || demoCharts.compliance) return;
 
-        new Chart(ctx, {
-            type: 'polarArea',
-            data: {
-                labels: ['Windows', 'iOS', 'Android', 'macOS'],
-                datasets: [{
-                    data: [40, 25, 20, 15],
-                    backgroundColor: [
-                        'rgba(59, 130, 246, 0.8)',
-                        'rgba(16, 185, 129, 0.8)',
-                        'rgba(245, 158, 11, 0.8)',
-                        'rgba(139, 92, 246, 0.8)'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 10,
-                            font: { size: 10 }
-                        }
-                    }
-                },
-                scales: {
-                    r: {
-                        display: false
-                    }
-                }
+    demoCharts.compliance = new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: ['Password Policy', 'Encryption', 'OS Version', 'App Protection', 'Device Lock'],
+            datasets: [{
+                label: 'Violations',
+                data: [45, 23, 67, 12, 34],
+                backgroundColor: ['#ef4444', '#f59e0b', '#ef4444', '#10b981', '#f59e0b']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Number of Violations' } }
             }
-        });
-    }
+        }
+    });
+}
 
-    function createOverviewChart() {
-        const ctx = document.getElementById('overviewChart');
-        if (!ctx) return;
+function createSecurityDetailChart() {
+    const canvas = document.getElementById('securityDetailChart');
+    if (!canvas || demoCharts.security) return;
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [
-                    {
-                        label: 'Compliance Rate (%)',
-                        data: [94, 95, 93, 96, 94, 95, 94],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        yAxisID: 'y'
-                    },
-                    {
-                        label: 'Active Devices',
-                        data: [1820, 1835, 1840, 1847, 1850, 1845, 1847],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        yAxisID: 'y1'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        max: 100,
-                        title: {
-                            display: true,
-                            text: 'Compliance Rate (%)'
-                        }
-                    },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        title: {
-                            display: true,
-                            text: 'Device Count'
-                        },
-                        grid: {
-                            drawOnChartArea: false
-                        }
-                    }
-                }
-            }
-        });
-    }
+    demoCharts.security = new Chart(canvas, {
+        type: 'radar',
+        data: {
+            labels: ['Encryption', 'Antivirus', 'Firewall', 'Updates', 'Authentication', 'Compliance'],
+            datasets: [{
+                label: 'Security Score',
+                data: [95, 87, 92, 89, 94, 91],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.2)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { r: { beginAtZero: true, max: 100 } }
+        }
+    });
+}
 
-    function setupNavbarScroll() {
-        const navbar = document.querySelector('.navbar');
-        
-        window.addEventListener('scroll', () => {
-            const scroll = window.pageYOffset;
-            
-            if (scroll > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 4px 6px -1px rgb(0 0 0 / 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = 'none';
-            }
-        });
-    }
+function createDeviceDetailChart() {
+    const canvas = document.getElementById('deviceDetailChart');
+    if (!canvas || demoCharts.devices) return;
 
-    function setupAnimations() {
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Animated counters
-        const animateCounter = (element, target, duration = 2000) => {
-            let start = 0;
-            const increment = target / (duration / 16);
-            
-            const timer = setInterval(() => {
-                start += increment;
-                if (start >= target) {
-                    clearInterval(timer);
-                    start = target;
-                }
-                element.textContent = Math.floor(start) + (element.textContent.includes('%') ? '%' : '');
-            }, 16);
-        };
-
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    
-                    // Animate metric values
-                    const metricValue = entry.target.querySelector('.metric-value');
-                    if (metricValue) {
-                        const target = parseFloat(metricValue.textContent);
-                        if (target) {
-                            animateCounter(metricValue, target);
-                        }
-                    }
-                }
-            });
-        }, observerOptions);
-
-        // Animate feature cards
-        document.querySelectorAll('.feature-card').forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-            observer.observe(card);
-        });
-
-        // Animate demo metrics
-        document.querySelectorAll('.demo-metric').forEach((metric, index) => {
-            metric.style.opacity = '0';
-            metric.style.transform = 'translateY(20px)';
-            metric.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`;
-            observer.observe(metric);
-        });
-    }
-});
+    demoCharts.devices = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            labels: ['Windows', 'iOS', 'Android', 'macOS'],
+            datasets: [{
+                data: [65, 18, 12, 5],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+}
