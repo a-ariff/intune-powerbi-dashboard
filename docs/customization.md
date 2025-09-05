@@ -21,6 +21,7 @@ This guide provides instructions for customizing the Intune Power BI Dashboard t
 Customize the dashboard to reflect your organization's identity:
 
 #### Logo Integration
+
 - **Header Logo**: Replace default logo with your organization's logo
   - Recommended size: 200x60 pixels
   - Supported formats: PNG, SVG
@@ -31,6 +32,7 @@ Customize the dashboard to reflect your organization's identity:
   - Custom background images supported
 
 #### Color Scheme
+
 ```json
 {
   "primary": "#0078d7",
@@ -42,9 +44,10 @@ Customize the dashboard to reflect your organization's identity:
 ```
 
 #### Typography
+
 - **Primary Font**: Segoe UI (recommended)
 - **Alternative Fonts**: Arial, Calibri, or custom corporate fonts
-- **Font Sizes**: 
+- **Font Sizes**:
   - Headers: 18-24pt
   - Body text: 10-12pt
   - Captions: 8-10pt
@@ -66,16 +69,19 @@ Customize the dashboard to reflect your organization's identity:
 ### Built-in Themes
 
 #### Light Theme (Default)
+
 - Clean, professional appearance
 - High contrast for readability
 - Suitable for most corporate environments
 
 #### Dark Theme
+
 - Modern, sleek appearance
 - Reduced eye strain
 - Ideal for dashboard displays
 
 #### High Contrast Theme
+
 - Accessibility compliant
 - Enhanced readability
 - WCAG 2.1 AA compliant
@@ -83,6 +89,7 @@ Customize the dashboard to reflect your organization's identity:
 ### Custom Theme Creation
 
 #### Theme Configuration File
+
 ```json
 {
   "name": "Corporate Theme",
@@ -97,6 +104,7 @@ Customize the dashboard to reflect your organization's identity:
 ```
 
 #### Applying Custom Themes
+
 1. Create theme JSON file
 2. Import into Power BI Desktop
 3. Apply to all report pages
@@ -107,37 +115,42 @@ Customize the dashboard to reflect your organization's identity:
 ### Dashboard Layout
 
 #### Page Structure
-- **Overview Page**: Executive summary and KPIs
-- **Device Compliance**: Detailed compliance metrics
-- **Software Inventory**: Application deployment status
-- **Security Posture**: Security policies and threats
-- **User Analytics**: User engagement and activity
+
+• Overview Page: Executive summary and KPIs  
+• Device Compliance: Detailed compliance metrics  
+• Software Inventory: Application deployment status  
+• Security Posture: Security policies and threats  
+• User Analytics: User engagement and activity  
 
 #### Custom Pages
+
 Add organization-specific pages:
-- **Department Views**: Filtered by organizational units
-- **Geographic Reports**: Location-based analytics
-- **Custom Metrics**: Organization-specific KPIs
+• Department Views: Filtered by organizational units  
+• Geographic Reports: Location-based analytics  
+• Custom Metrics: Organization-specific KPIs  
 
 ### Visual Customization
 
 #### Chart Types
-- **Bar Charts**: Policy compliance rates
-- **Pie Charts**: OS distribution
-- **Line Charts**: Trends over time
-- **Tables**: Detailed device listings
-- **Cards**: Key performance indicators
+
+• Bar Charts: Policy compliance rates  
+• Pie Charts: OS distribution  
+• Line Charts: Trends over time  
+• Tables: Detailed device listings  
+• Cards: Key performance indicators  
 
 #### Custom Visuals
+
 Recommended Power BI custom visuals:
-- **Chiclet Slicer**: Enhanced filtering
-- **Hierarchy Slicer**: Organizational structure
-- **Calendar**: Date range selection
-- **Word Cloud**: Common issues visualization
+• Chiclet Slicer: Enhanced filtering  
+• Hierarchy Slicer: Organizational structure  
+• Calendar: Date range selection  
+• Word Cloud: Common issues visualization  
 
 ## Custom Visuals
 
 ### Installation
+
 1. Download from Power BI marketplace
 2. Import .pbiviz files
 3. Configure visual properties
@@ -146,16 +159,19 @@ Recommended Power BI custom visuals:
 ### Recommended Custom Visuals
 
 #### Advanced Card by MAQ Software
+
 - Enhanced KPI display
 - Multiple metrics per card
 - Conditional formatting
 
 #### Gantt Chart
+
 - Project timeline visualization
 - Deployment schedules
 - Maintenance windows
 
 #### Sankey Diagram
+
 - Data flow visualization
 - Process mapping
 - Relationship analysis
@@ -163,37 +179,43 @@ Recommended Power BI custom visuals:
 ## Layout Customization
 
 ### Responsive Design
-- **Desktop Layout**: Full-featured dashboard
-- **Tablet Layout**: Optimized for touch interaction
-- **Mobile Layout**: Essential metrics only
+
+• Desktop Layout: Full-featured dashboard  
+• Tablet Layout: Optimized for touch interaction  
+• Mobile Layout: Essential metrics only  
 
 ### Grid System
+
 - Use consistent spacing (8px grid)
 - Align visuals to grid lines
 - Maintain visual hierarchy
 
 ### Navigation
-- **Bookmarks**: Quick access to filtered views
-- **Buttons**: Custom navigation elements
-- **Drill-through**: Detailed analysis pages
+
+• Bookmarks: Quick access to filtered views  
+• Buttons: Custom navigation elements  
+• Drill-through: Detailed analysis pages  
 
 ## Data Filtering
 
 ### Default Filters
+
 Pre-configure common filters:
-- **Date Range**: Last 30/90 days
-- **Device Type**: Windows, iOS, Android
-- **Compliance Status**: Compliant/Non-compliant
-- **Geographic Location**: By region/country
+• Date Range: Last 30/90 days  
+• Device Type: Windows, iOS, Android  
+• Compliance Status: Compliant/Non-compliant  
+• Geographic Location: By region/country  
 
 ### Custom Slicers
+
 Organization-specific filtering:
-- **Department**: Based on AD groups
-- **Cost Center**: Financial reporting
-- **Device Owner**: Assigned users
-- **Management Group**: Intune groups
+• Department: Based on AD groups  
+• Cost Center: Financial reporting  
+• Device Owner: Assigned users  
+• Management Group: Intune groups  
 
 ### Filter Synchronization
+
 - Sync filters across pages
 - Maintain filter state
 - Reset filter options
@@ -201,19 +223,22 @@ Organization-specific filtering:
 ## Export Settings
 
 ### Export Templates
-- **Executive Summary**: One-page overview
-- **Detailed Report**: Multi-page analysis
-- **Data Extract**: Raw data export
+
+• Executive Summary: One-page overview  
+• Detailed Report: Multi-page analysis  
+• Data Extract: Raw data export  
 
 ### Automated Exports
-- **Scheduled Reports**: Daily/weekly/monthly
-- **Email Distribution**: Stakeholder lists
-- **File Formats**: PDF, Excel, PowerPoint
+
+• Scheduled Reports: Daily/weekly/monthly  
+• Email Distribution: Stakeholder lists  
+• File Formats: PDF, Excel, PowerPoint  
 
 ### Custom Export Layouts
-- **Logo Placement**: Consistent branding
-- **Header/Footer**: Standard information
-- **Page Numbering**: Professional formatting
+
+• Logo Placement: Consistent branding  
+• Header/Footer: Standard information  
+• Page Numbering: Professional formatting  
 
 ## Implementation Steps
 
@@ -245,26 +270,34 @@ Organization-specific filtering:
 ## Best Practices
 
 ### Design Principles
-- **Clarity**: Clear, easy-to-understand visuals
-- **Consistency**: Uniform styling throughout
-- **Hierarchy**: Important information prominent
-- **Accessibility**: Inclusive design practices
+
+• Clarity: Clear, easy-to-understand visuals  
+• Consistency: Uniform styling throughout  
+• Hierarchy: Important information prominent  
+• Accessibility: Inclusive design practices  
 
 ### Performance Optimization
-- **Data Model**: Optimize relationships
-- **Visuals**: Limit complex calculations
-- **Filters**: Use efficient filtering
-- **Images**: Optimize file sizes
+
+• Data Model: Optimize relationships  
+• Visuals: Limit complex calculations  
+• Filters: Use efficient filtering  
+• Images: Optimize file sizes  
 
 ### Maintenance
-- **Regular Updates**: Keep themes current
-- **User Feedback**: Incorporate improvements
-- **Documentation**: Maintain change logs
-- **Backup**: Version control for customizations
+
+• Regular Updates: Keep themes current  
+• User Feedback: Incorporate improvements  
+• Documentation: Maintain change logs  
+• Backup: Version control for customizations  
 
 ## Support and Resources
 
 - [Power BI Theme Gallery](https://community.powerbi.com/t5/Themes-Gallery/bd-p/ThemesGallery)
 - [Custom Visual Documentation](https://docs.microsoft.com/en-us/power-bi/developer/visuals/)
-- [Branding Guidelines Template](../templates/branding-guidelines.md)
-- [Theme JSON Schema](../templates/theme-schema.json)
+
+### Coming Soon
+
+- `templates/branding-guidelines.md` - Branding Guidelines Template
+- `templates/theme-schema.json` - Theme JSON Schema
+
+> **Note**: Template files are currently being developed and will be available in a future release. Please check back for updates or contact the project maintainers for early access.
