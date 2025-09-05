@@ -1,0 +1,13 @@
+# Lychee configuration for link checking
+# This file configures the lychee link checker to exclude certain URLs
+# and handle specific status codes appropriately
+
+# Exclude URLs that are known to be problematic for automated checking
+exclude = [
+  "https://portal.azure.com/",
+  "https://www.linkedin.com/in/ariff-mohamed/"
+]
+
+# Accept status codes that should be treated as successful
+# LinkedIn returns 999 for security reasons, but the links are valid
+accept = [999]
