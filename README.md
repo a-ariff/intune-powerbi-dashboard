@@ -74,3 +74,34 @@ This project provides a **production-ready Power BI dashboard** that connects di
 ## 🛠️ **Customization**
 
 ### **Custom Policies**
+
+
+## 📄 **License**
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 **Support**
+
+- **🐛 Issues**: [Report bugs](https://github.com/a-ariff/intune-powerbi-dashboard/issues)
+- **💬 Discussions**: [Community support](https://github.com/a-ariff/intune-powerbi-dashboard/discussions)
+
+## 🏷️ **Version Information**
+
+| 📋 **Attribute** | 📄 **Value** |
+|-----------------|-------------|
+| **Version** | 2.1.0 |
+| **Created By** | [@a-ariff](https://github.com/a-ariff) |
+| **Maintained By** | [Ariff Mohamed](https://linkedin.com/in/ariff-mohamed) |
+| **Status** | ✅ Production Ready |
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if it helps your organization!**
+
+[![GitHub stars](https://img.shields.io/github/stars/a-ariff/intune-powerbi-dashboard.svg?style=social&label=Star)](https://github.com/a-ariff/intune-powerbi-dashboard)
+
+</div>
+EOF
+
