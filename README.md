@@ -1,4 +1,4 @@
-[# 📊 Intune Power BI Dashboard
+# 📊 Intune Power BI Dashboard
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=power-bi&logoColor=black)](https://powerbi.microsoft.com/)
@@ -82,6 +82,7 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 ## 🔗 Important Links
 
 ### 📚 **Documentation & Resources**
+
 - [📖 User Guide](./docs/user-guide.md) - Comprehensive usage instructions
 - [🔧 API Documentation](./docs/api-reference.md) - Technical implementation details
 - [🎨 Customization Guide](./docs/customization.md) - Branding and theme modifications
@@ -89,12 +90,14 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 - [📊 Sample Reports](./docs/sample-reports.md) - Pre-built report templates
 
 ### 🌐 **External Resources**
+
 - [Microsoft Intune Documentation](https://docs.microsoft.com/en-us/mem/intune/)
 - [Power BI Developer Center](https://powerbi.microsoft.com/developers/)
 - [Microsoft Graph API Reference](https://docs.microsoft.com/en-us/graph/)
 - [Azure AD App Registration Guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
 
 ### 🎯 **Live Demo & Examples**
+
 - [🔗 Interactive Demo](https://a-ariff.github.io/intune-powerbi-dashboard/) - Try the dashboard online
 - [📱 Mobile Preview](https://a-ariff.github.io/intune-powerbi-dashboard/mobile) - Mobile-optimized view
 - [🎥 Video Walkthrough](https://youtu.be/demo-video-id) - Complete setup tutorial
@@ -103,13 +106,13 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 
 ## 👨‍💻 About the Creator
 
-**Created with ❤️ by [Ahmed Ariff](https://github.com/a-ariff)**
+**Created with ❤️ by [Ariff Mohamed](https://github.com/a-ariff)**
 
 🎯 **Specializing in:** Microsoft 365, Power Platform, Azure Infrastructure, and Enterprise Security
 
 📧 **Get in Touch:**
 - 🐙 GitHub: [@a-ariff](https://github.com/a-ariff)
-- 💼 LinkedIn: [Connect with Ahmed](https://linkedin.com/in/a-ariff)
+- 💼 LinkedIn: [Connect with Ariff Mohamed](https://linkedin.com/in/a-ariff)
 - 🌐 Portfolio: [Professional Projects](https://a-ariff.github.io)
 - 📧 Email: [Contact for Consulting](mailto:contact@a-ariff.dev)
 
@@ -123,4 +126,4 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 [![Powered by](https://img.shields.io/badge/Powered%20by-Microsoft%20Power%20BI-yellow.svg)](https://powerbi.microsoft.com/)
 [![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-success.svg)](https://github.com/a-ariff/intune-powerbi-dashboard)
 
-</div>](https://www.linkedin.com/in/ariff-mohamed/)
+</div>
