@@ -19,7 +19,7 @@ This project provides a complete dashboard solution for Microsoft Intune adminis
 ## Quick Start
 
 1. **Prerequisites**: Ensure you have Microsoft Power BI Desktop and appropriate Intune permissions
-2. **Download**: Get the latest `.pbit` template from the [releases](../../../releases)
+2. **Download**: Get the latest `.pbit` template from the [releases](https://github.com/a-ariff/intune-powerbi-dashboard/releases)
 3. **Configure**: Follow the authentication guide to set up API connections
 4. **Deploy**: Import the template and configure data sources
 
@@ -48,7 +48,7 @@ This project provides a complete dashboard solution for Microsoft Intune adminis
 
 For issues and questions:
 
-- Check the [Issues](../../../issues) section
+- Check the [Issues](https://github.com/a-ariff/intune-powerbi-dashboard/issues) section
 - Review the [Authentication Guide](authentication-guide.md)
 - Consult the main [README](../README.md) for troubleshooting
 
