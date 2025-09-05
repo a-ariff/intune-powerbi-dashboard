@@ -1,0 +1,4 @@
+*.m linguist-language=M
+*.pq linguist-language=M
+power-bi-files/**/*.* linguist-documentation=false
+src/**/*.m linguist-language=M
