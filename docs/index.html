@@ -81,7 +81,7 @@
                         <span>Download Dashboard</span>
                     </a>
                     <a href="#demo" class="btn btn-secondary">
-                        <span>View Live Demo</span>
+                        <span>View Interactive Demo</span>
                     </a>
                 </div>
             </div>
@@ -106,6 +106,10 @@
                     <div class="feature-metrics">
                         <canvas id="complianceChart" width="280" height="140"></canvas>
                     </div>
+                    <div class="feature-stats">
+                        <span class="stat-badge success">94.2% Compliant</span>
+                        <span class="stat-badge warning">5.8% Issues</span>
+                    </div>
                 </div>
                 
                 <div class="feature-card">
@@ -114,6 +118,10 @@
                     <p>Complete application deployment monitoring with version management and security risk assessment.</p>
                     <div class="feature-metrics">
                         <canvas id="softwareChart" width="280" height="140"></canvas>
+                    </div>
+                    <div class="feature-stats">
+                        <span class="stat-badge info">1,247 Apps</span>
+                        <span class="stat-badge success">Latest Versions</span>
                     </div>
                 </div>
                 
@@ -124,6 +132,10 @@
                     <div class="feature-metrics">
                         <canvas id="securityChart" width="280" height="140"></canvas>
                     </div>
+                    <div class="feature-stats">
+                        <span class="stat-badge success">98.7% Encrypted</span>
+                        <span class="stat-badge error">3 Threats</span>
+                    </div>
                 </div>
                 
                 <div class="feature-card">
@@ -133,41 +145,69 @@
                     <div class="feature-metrics">
                         <canvas id="analyticsChart" width="280" height="140"></canvas>
                     </div>
+                    <div class="feature-stats">
+                        <span class="stat-badge info">4 Platforms</span>
+                        <span class="stat-badge success">Real-time Data</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Demo Section -->
+    <!-- Interactive Demo Section -->
     <section id="demo" class="demo-section">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Interactive Dashboard Preview</h2>
                 <p class="section-description">
-                    Experience the dashboard functionality with realistic sample data
+                    Click through different dashboard views with realistic sample data
                 </p>
             </div>
             
             <div class="demo-container">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" data-tab="overview" onclick="switchDemoTab('overview')">Overview</button>
+                    <button class="demo-tab" data-tab="compliance" onclick="switchDemoTab('compliance')">Compliance</button>
+                    <button class="demo-tab" data-tab="security" onclick="switchDemoTab('security')">Security</button>
+                    <button class="demo-tab" data-tab="devices" onclick="switchDemoTab('devices')">Devices</button>
+                </div>
+                
                 <div class="demo-content">
-                    <div class="demo-metrics">
-                        <div class="demo-metric">
-                            <div class="metric-value">94.2%</div>
-                            <div class="metric-label">Compliance Rate</div>
-                            <div class="metric-trend positive">↗ +2.3%</div>
+                    <div id="overview-panel" class="demo-panel active">
+                        <div class="demo-metrics">
+                            <div class="demo-metric">
+                                <div class="metric-value">94.2%</div>
+                                <div class="metric-label">Compliance Rate</div>
+                                <div class="metric-trend positive">↗ +2.3%</div>
+                            </div>
+                            <div class="demo-metric">
+                                <div class="metric-value">1,847</div>
+                                <div class="metric-label">Total Devices</div>
+                                <div class="metric-trend positive">↗ +15</div>
+                            </div>
+                            <div class="demo-metric">
+                                <div class="metric-value">98.7%</div>
+                                <div class="metric-label">Encryption Rate</div>
+                                <div class="metric-trend neutral">→ 0%</div>
+                            </div>
                         </div>
-                        <div class="demo-metric">
-                            <div class="metric-value">1,847</div>
-                            <div class="metric-label">Total Devices</div>
-                            <div class="metric-trend positive">↗ +15</div>
-                        </div>
-                        <div class="demo-metric">
-                            <div class="metric-value">98.7%</div>
-                            <div class="metric-label">Encryption Rate</div>
-                            <div class="metric-trend neutral">→ 0%</div>
-                        </div>
+                        <canvas id="overviewChart" width="600" height="300"></canvas>
                     </div>
-                    <canvas id="overviewChart" width="600" height="300"></canvas>
+                    
+                    <div id="compliance-panel" class="demo-panel">
+                        <h3>Compliance Breakdown</h3>
+                        <canvas id="complianceDetailChart" width="600" height="300"></canvas>
+                    </div>
+                    
+                    <div id="security-panel" class="demo-panel">
+                        <h3>Security Posture</h3>
+                        <canvas id="securityDetailChart" width="600" height="300"></canvas>
+                    </div>
+                    
+                    <div id="devices-panel" class="demo-panel">
+                        <h3>Device Distribution</h3>
+                        <canvas id="deviceDetailChart" width="600" height="300"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -188,15 +228,15 @@
                 <div class="footer-section">
                     <h4>Connect</h4>
                     <ul>
-                        <li><a href="https://linkedin.com/in/ariff-aglobal">LinkedIn</a></li>
-                        <li><a href="https://aglobaltec.com">Portfolio</a></li>
-                        <li><a href="mailto:ariff@aglobaltec.com">Contact</a></li>
+                        <li><a href="https://www.linkedin.com/in/ariff-mohamed/">LinkedIn Profile</a></li>
+                        <li><a href="https://aglobaltec.com">Portfolio Website</a></li>
+                        <li><a href="mailto:ariff@aglobaltec.com">Email Contact</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Ariff @ Aglobal Technologies. Open source under MIT License.</p>
+                <p>&copy; 2025 Ariff Mohamed. Open source under MIT License.</p>
             </div>
         </div>
     </footer>
