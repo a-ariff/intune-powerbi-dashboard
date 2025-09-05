@@ -1,4 +1,4 @@
-[# 📊 Intune Power BI Dashboard
+# 📊 Intune Power BI Dashboard
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=power-bi&logoColor=black)](https://powerbi.microsoft.com/)
@@ -20,13 +20,11 @@ This repository includes Docker packaging for easy deployment and distribution o
 ### Pulling and Running the Image
 
 Pull the latest Docker image from GitHub Container Registry:
-
 ```bash
 docker pull ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
 
 Run the container:
-
 ```bash
 docker run -d -p 8000:8000 ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
@@ -36,7 +34,6 @@ Access the dashboard at `http://localhost:8000`
 ### Building from Source
 
 Alternatively, build the image locally:
-
 ```bash
 git clone https://github.com/a-ariff/intune-powerbi-dashboard.git
 cd intune-powerbi-dashboard
@@ -47,7 +44,6 @@ docker run -d -p 8000:8000 intune-powerbi-dashboard
 ### Customization Note
 
 **Note**: The included `Dockerfile` is a minimal template designed to serve dashboard files via a lightweight HTTP server. This is provided as an example and can be modified as needed to:
-
 - Integrate with specific data sources
 - Add authentication mechanisms
 - Configure custom ports or SSL
@@ -103,13 +99,13 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 
 ## 👨‍💻 About the Creator
 
-**Created with ❤️ by [Ahmed Ariff](https://github.com/a-ariff)**
+**Created with ❤️ by [Ariff Mohamed](https://github.com/a-ariff)**
 
 🎯 **Specializing in:** Microsoft 365, Power Platform, Azure Infrastructure, and Enterprise Security
 
 📧 **Get in Touch:**
 - 🐙 GitHub: [@a-ariff](https://github.com/a-ariff)
-- 💼 LinkedIn: [Connect with Ahmed](https://linkedin.com/in/a-ariff)
+- 💼 LinkedIn: [Connect with Ariff Mohamed](https://linkedin.com/in/a-ariff)
 - 🌐 Portfolio: [Professional Projects](https://a-ariff.github.io)
 - 📧 Email: [Contact for Consulting](mailto:contact@a-ariff.dev)
 
@@ -123,4 +119,6 @@ See the `Dockerfile` and `.github/workflows/docker-publish.yml` for implementati
 [![Powered by](https://img.shields.io/badge/Powered%20by-Microsoft%20Power%20BI-yellow.svg)](https://powerbi.microsoft.com/)
 [![Enterprise Ready](https://img.shields.io/badge/Enterprise-Ready-success.svg)](https://github.com/a-ariff/intune-powerbi-dashboard)
 
-</div>](https://www.linkedin.com/in/ariff-mohamed/)
+</div>
+
+](https://www.linkedin.com/in/ariff-mohamed/)
