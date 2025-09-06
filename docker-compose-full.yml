@@ -1,0 +1,203 @@
+version: '3.8'
+
+# Combined Docker Compose for Intune PowerBI Dashboard and RustDesk Server
+# This file provides a complete remote access solution with dashboard monitoring
+
+services:
+  # Intune PowerBI Dashboard Service (nginx-based)
+  intune-dashboard:
+    image: ghcr.io/a-ariff/intune-powerbi-dashboard:latest
+    container_name: intune-powerbi-dashboard
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+    networks:
+      - monitoring-network
+    volumes:
+      - dashboard-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "service.name=intune-dashboard"
+      - "service.description=Intune PowerBI Dashboard"
+
+  # RustDesk Relay Server (hbbr)
+  rustdesk-relay:
+    image: rustdesk/rustdesk-server:latest
+    container_name: rustdesk-hbbr
+    command: hbbr
+    ports:
+      - "21117:21117"  # Relay port
+    restart: unless-stopped
+    environment:
+      - RELAY_SERVERS=rustdesk-signal:21116
+      - TZ=UTC
+    networks:
+      - rustdesk-network
+    volumes:
+      - rustdesk-relay-data:/root
+    depends_on:
+      - rustdesk-signal
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "service.name=rustdesk-relay"
+      - "service.description=RustDesk Relay Server (hbbr)"
+
+  # RustDesk Signal Server (hbbs)
+  rustdesk-signal:
+    image: rustdesk/rustdesk-server:latest
+    container_name: rustdesk-hbbs
+    command: hbbs -r rustdesk-relay:21117
+    ports:
+      - "21115:21115"  # TCP port for file transfer
+      - "21116:21116"  # TCP port for handshake and heartbeat
+      - "21116:21116/udp"  # UDP port for heartbeat
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+      - RUST_LOG=info
+    networks:
+      - rustdesk-network
+      - bridge-network  # Connected to bridge for external access
+    volumes:
+      - rustdesk-signal-data:/root
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "21116"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "service.name=rustdesk-signal"
+      - "service.description=RustDesk Signal Server (hbbs)"
+
+  # Optional: Nginx Reverse Proxy for unified access
+  reverse-proxy:
+    image: nginx:alpine
+    container_name: intune-rustdesk-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+    networks:
+      - monitoring-network
+      - bridge-network
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - proxy-logs:/var/log/nginx
+    depends_on:
+      - intune-dashboard
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "service.name=reverse-proxy"
+      - "service.description=Nginx Reverse Proxy"
+
+networks:
+  monitoring-network:
+    driver: bridge
+    name: intune-monitoring
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+  
+  rustdesk-network:
+    driver: bridge
+    name: rustdesk-internal
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/16
+          gateway: 172.21.0.1
+  
+  bridge-network:
+    driver: bridge
+    name: shared-bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/16
+          gateway: 172.22.0.1
+
+volumes:
+  # Dashboard data storage
+  dashboard-data:
+    driver: local
+    name: intune-dashboard-data
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "volume.purpose=dashboard-data"
+  
+  # RustDesk server data storage
+  rustdesk-signal-data:
+    driver: local
+    name: rustdesk-signal-data
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "volume.purpose=rustdesk-signal"
+  
+  rustdesk-relay-data:
+    driver: local
+    name: rustdesk-relay-data
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "volume.purpose=rustdesk-relay"
+  
+  # Proxy logs
+  proxy-logs:
+    driver: local
+    name: proxy-logs
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "volume.purpose=proxy-logs"
+
+# Configuration for environment variables
+# Create a .env file with the following variables:
+#
+# # Timezone
+# TZ=America/New_York
+#
+# # Dashboard Configuration
+# DASHBOARD_PORT=8000
+#
+# # RustDesk Configuration
+# RUSTDESK_RELAY_PORT=21117
+# RUSTDESK_SIGNAL_TCP_PORT=21115
+# RUSTDESK_SIGNAL_PORT=21116
+#
+# # Proxy Configuration
+# HTTP_PORT=80
+# HTTPS_PORT=443
+#
+# # Security
+# RUSTDESK_KEY=your-encryption-key-here
+# RUSTDESK_PUB_KEY=your-public-key-here
+
+# Usage Instructions:
+# 1. Save this file as docker-compose-full.yml
+# 2. Create .env file with your configuration
+# 3. Run: docker-compose -f docker-compose-full.yml up -d
+# 4. Access dashboard at: http://localhost:8000
+# 5. Configure RustDesk clients to use:
+#    - Signal server: your-server-ip:21116
+#    - Relay server: your-server-ip:21117
+#
+# To generate RustDesk keys:
+# docker run --rm rustdesk/rustdesk-server:latest --gen-keys
+#
+# For production deployment:
+# - Update network subnets to avoid conflicts
+# - Configure proper SSL certificates
+# - Set up firewall rules for ports 21115, 21116, 21117
+# - Monitor resource usage and scale as needed
