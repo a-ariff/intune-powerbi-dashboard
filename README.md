@@ -11,13 +11,11 @@ This repository includes Docker packaging for easy deployment and distribution o
 ### Pulling and Running the Image
 
 Pull the latest Docker image from GitHub Container Registry:
-
 ```bash
 docker pull ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
 
 Run the container:
-
 ```bash
 docker run -d -p 8000:8000 ghcr.io/a-ariff/intune-powerbi-dashboard:latest
 ```
@@ -27,7 +25,6 @@ Access the dashboard at `http://localhost:8000`
 ### Building from Source
 
 Alternatively, build the image locally:
-
 ```bash
 git clone https://github.com/a-ariff/intune-powerbi-dashboard.git
 cd intune-powerbi-dashboard
@@ -38,7 +35,6 @@ docker run -d -p 8000:8000 intune-powerbi-dashboard
 ### Customization Note
 
 Note: The included Dockerfile is a minimal template designed to serve dashboard files via a lightweight HTTP server. This is provided as an example and can be modified as needed to:
-
 • Integrate with specific data sources
 • Add authentication mechanisms
 • Configure custom ports or SSL
@@ -46,6 +42,40 @@ Note: The included Dockerfile is a minimal template designed to serve dashboard 
 • Run custom processing scripts
 
 See the Dockerfile and .github/workflows/docker-publish.yml for implementation details.
+
+### 🚀 Combined Solution with RustDesk Remote Access
+
+For organizations requiring both device monitoring and secure remote access capabilities, we provide a comprehensive Docker Compose solution that combines the Intune PowerBI dashboard with RustDesk server services.
+
+#### Complete Remote Access & Monitoring Stack
+
+The `docker-compose-full.yml` file provides:
+- **Intune Dashboard**: Full monitoring and analytics capabilities
+- **RustDesk Server**: Self-hosted remote access solution with signal (hbbs) and relay (hbbr) servers
+- **Reverse Proxy**: Unified access through nginx
+- **Production Ready**: Health checks, persistent storage, and network isolation
+
+```bash
+# Deploy the complete stack
+docker-compose -f docker-compose-full.yml up -d
+
+# Access dashboard
+http://localhost:8000
+
+# Configure RustDesk clients with:
+# Signal server: your-server-ip:21116
+# Relay server: your-server-ip:21117
+```
+
+#### Benefits of Combined Deployment
+
+- **Unified Infrastructure**: Single deployment for monitoring and remote access
+- **Cost Effective**: Self-hosted alternative to commercial remote access solutions
+- **Enhanced Security**: Network isolation between services with proper firewall rules
+- **Scalability**: Production-ready configuration with health checks and auto-restart
+- **Enterprise Ready**: Comprehensive logging, monitoring, and security considerations
+
+This integrated solution is ideal for IT administrators who need both comprehensive device monitoring through Intune analytics and secure remote access capabilities for device management and support.
 
 ## 🚀 Quick Start
 
