@@ -1,19 +1,18 @@
-name: Build and Publish Docker Image
+name: Build and Publish Multi-Arch Docker Images
 
-# Trigger workflow on push or release
+# Trigger workflow on push to main and on tagged releases
 on:
   push:
-    branches: [ main, docker-package-setup ]
-    # Publish semver tags as releases
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ main ]
+    branches: [main]
+    tags: ['v*.*.*']
   release:
     types: [published]
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  GHCR_REGISTRY: ghcr.io
+  DOCKERHUB_REGISTRY: docker.io
+  GHCR_IMAGE: ghcr.io/a-ariff/intune-powerbi-dashboard
+  DOCKERHUB_IMAGE: dockerariff/intune-powerbi-dashboard
 
 jobs:
   build:
@@ -21,40 +20,96 @@ jobs:
     permissions:
       contents: read
       packages: write
-
+      id-token: write
+      attestations: write
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
+      
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+      
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-
-    - name: Log in to Container Registry
+      with:
+        platforms: linux/amd64,linux/arm64
+        
+    - name: Log in to GitHub Container Registry
       uses: docker/login-action@v3
       with:
-        registry: ${{ env.REGISTRY }}
+        registry: ${{ env.GHCR_REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-
+        
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.DOCKERHUB_REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        images: |
+          ${{ env.GHCR_IMAGE }}
+          ${{ env.DOCKERHUB_IMAGE }}
         tags: |
           type=ref,event=branch
-          type=ref,event=pr
+          type=raw,value=latest,enable={{is_default_branch}}
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
-          type=raw,value=latest,enable={{is_default_branch}}
-
-    - name: Build and push Docker image
+          type=semver,pattern={{major}}
+          type=sha,prefix={{branch}}-
+        labels: |
+          org.opencontainers.image.title=Intune PowerBI Dashboard
+          org.opencontainers.image.description=Comprehensive Power BI solution for monitoring Microsoft Intune device compliance, software inventory, and endpoint security
+          org.opencontainers.image.url=https://github.com/a-ariff/intune-powerbi-dashboard
+          org.opencontainers.image.source=https://github.com/a-ariff/intune-powerbi-dashboard
+          org.opencontainers.image.documentation=https://github.com/a-ariff/intune-powerbi-dashboard
+          org.opencontainers.image.vendor=Ariff Mohamed
+          org.opencontainers.image.licenses=MIT
+          maintainer=Ariff Mohamed <contact@a-ariff.dev>
+          
+    - name: Build and push Docker images
+      id: build
       uses: docker/build-push-action@v5
       with:
         context: .
         file: ./Dockerfile
+        platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        build-args: |
+          BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+          VCS_REF=${{ github.sha }}
+          VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+          
+    - name: Generate SBOM
+      uses: anchore/sbom-action@v0
+      if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+      with:
+        image: ${{ env.GHCR_IMAGE }}:${{ steps.meta.outputs.version }}
+        format: spdx-json
+        output-file: sbom.spdx.json
+        
+    - name: Generate attestation
+      uses: actions/attest-build-provenance@v1
+      if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+      with:
+        subject-name: ${{ env.GHCR_IMAGE }}
+        subject-digest: ${{ steps.build.outputs.digest }}
+        push-to-registry: true
+        
+    - name: Generate attestation for Docker Hub
+      uses: actions/attest-build-provenance@v1
+      if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+      with:
+        subject-name: ${{ env.DOCKERHUB_IMAGE }}
+        subject-digest: ${{ steps.build.outputs.digest }}
+        push-to-registry: true
