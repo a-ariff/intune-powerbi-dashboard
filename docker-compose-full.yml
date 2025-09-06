@@ -1,85 +1,109 @@
 version: '3.8'
-
-# Combined Docker Compose for Intune PowerBI Dashboard and RustDesk Server
-# This file provides a complete remote access solution with dashboard monitoring
+# Combined Docker Compose for Intune PowerBI Dashboard with RustDesk Server Integration
+# Uses existing dockerariff/rust-selfhost-server as the base infrastructure
+# This approach extends existing infrastructure rather than creating separate containers
 
 services:
-  # Intune PowerBI Dashboard Service (nginx-based)
-  intune-dashboard:
-    image: ghcr.io/a-ariff/intune-powerbi-dashboard:latest
-    container_name: intune-powerbi-dashboard
+  # Base Infrastructure Server - Uses existing rust-selfhost-server
+  # This serves as the foundation for both dashboard and remote access services
+  base-infrastructure:
+    image: dockerariff/rust-selfhost-server:latest
+    container_name: intune-rust-base-server
     ports:
-      - "8000:8000"
-    restart: unless-stopped
-    environment:
-      - TZ=UTC
-    networks:
-      - monitoring-network
-    volumes:
-      - dashboard-data:/app/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
-      - "service.name=intune-dashboard"
-      - "service.description=Intune PowerBI Dashboard"
-
-  # RustDesk Relay Server (hbbr)
-  rustdesk-relay:
-    image: rustdesk/rustdesk-server:latest
-    container_name: rustdesk-hbbr
-    command: hbbr
-    ports:
-      - "21117:21117"  # Relay port
-    restart: unless-stopped
-    environment:
-      - RELAY_SERVERS=rustdesk-signal:21116
-      - TZ=UTC
-    networks:
-      - rustdesk-network
-    volumes:
-      - rustdesk-relay-data:/root
-    depends_on:
-      - rustdesk-signal
-    labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
-      - "service.name=rustdesk-relay"
-      - "service.description=RustDesk Relay Server (hbbr)"
-
-  # RustDesk Signal Server (hbbs)
-  rustdesk-signal:
-    image: rustdesk/rustdesk-server:latest
-    container_name: rustdesk-hbbs
-    command: hbbs -r rustdesk-relay:21117
-    ports:
-      - "21115:21115"  # TCP port for file transfer
-      - "21116:21116"  # TCP port for handshake and heartbeat
-      - "21116:21116/udp"  # UDP port for heartbeat
+      - "8000:8000"   # Dashboard access
+      - "8080:8080"   # Base server services
+      - "21115:21115" # RustDesk file transfer
+      - "21116:21116" # RustDesk signal server
+      - "21116:21116/udp" # RustDesk heartbeat
+      - "21117:21117" # RustDesk relay server
     restart: unless-stopped
     environment:
       - TZ=UTC
       - RUST_LOG=info
+      - RUSTDESK_ENABLE=true
+      - DASHBOARD_ENABLE=true
     networks:
-      - rustdesk-network
-      - bridge-network  # Connected to bridge for external access
+      - unified-network
     volumes:
-      - rustdesk-signal-data:/root
+      - base-server-data:/root
+      - dashboard-config:/app/config
+      - rustdesk-keys:/opt/rustdesk/keys
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "21116"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
     labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
-      - "service.name=rustdesk-signal"
-      - "service.description=RustDesk Signal Server (hbbs)"
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "service.name=base-infrastructure"
+      - "service.description=Unified Base Server with Dashboard and RustDesk"
 
-  # Optional: Nginx Reverse Proxy for unified access
+  # Intune Dashboard Extension - Extends base server with dashboard functionality
+  dashboard-extension:
+    image: ghcr.io/a-ariff/intune-powerbi-dashboard:latest
+    container_name: intune-dashboard-extension
+    network_mode: "service:base-infrastructure"
+    depends_on:
+      - base-infrastructure
+    volumes:
+      - dashboard-data:/app/data
+      - dashboard-config:/app/config:ro
+    environment:
+      - TZ=UTC
+      - BASE_SERVER_URL=http://localhost:8080
+      - DASHBOARD_MODE=extension
+    restart: unless-stopped
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "service.name=dashboard-extension"
+      - "service.description=Dashboard Extension for Base Infrastructure"
+
+  # RustDesk Signal Service Extension - Adds RustDesk signal server capabilities
+  rustdesk-signal-extension:
+    image: rustdesk/rustdesk-server:latest
+    container_name: rustdesk-signal-ext
+    network_mode: "service:base-infrastructure"
+    command: hbbs -r localhost:21117 -k /opt/rustdesk/keys
+    depends_on:
+      - base-infrastructure
+    volumes:
+      - rustdesk-keys:/opt/rustdesk/keys
+      - base-server-data:/root:ro
+    environment:
+      - TZ=UTC
+      - RUST_LOG=info
+      - BASE_SERVER_MODE=extension
+    restart: unless-stopped
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "service.name=rustdesk-signal-extension"
+      - "service.description=RustDesk Signal Server Extension"
+
+  # RustDesk Relay Service Extension - Adds RustDesk relay server capabilities
+  rustdesk-relay-extension:
+    image: rustdesk/rustdesk-server:latest
+    container_name: rustdesk-relay-ext
+    network_mode: "service:base-infrastructure"
+    command: hbbr -k /opt/rustdesk/keys
+    depends_on:
+      - base-infrastructure
+      - rustdesk-signal-extension
+    volumes:
+      - rustdesk-keys:/opt/rustdesk/keys
+      - base-server-data:/root:ro
+    environment:
+      - TZ=UTC
+      - RUST_LOG=info
+      - RELAY_SERVERS=localhost:21116
+      - BASE_SERVER_MODE=extension
+    restart: unless-stopped
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "service.name=rustdesk-relay-extension"
+      - "service.description=RustDesk Relay Server Extension"
+
+  # Optional: Reverse Proxy for unified access and load balancing
   reverse-proxy:
     image: nginx:alpine
     container_name: intune-rustdesk-proxy
@@ -90,77 +114,115 @@ services:
     environment:
       - TZ=UTC
     networks:
-      - monitoring-network
-      - bridge-network
+      - unified-network
+      - external-network
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-unified.conf:/etc/nginx/nginx.conf:ro
       - proxy-logs:/var/log/nginx
+      - ssl-certs:/etc/ssl/certs
     depends_on:
-      - intune-dashboard
+      - base-infrastructure
     labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "com.docker.compose.project=intune-rustdesk-unified"
       - "service.name=reverse-proxy"
-      - "service.description=Nginx Reverse Proxy"
+      - "service.description=Unified Access Proxy"
+
+  # Service Discovery and Health Monitor
+  service-monitor:
+    image: prom/prometheus:latest
+    container_name: service-health-monitor
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+    networks:
+      - unified-network
+    volumes:
+      - ./prometheus-unified.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    depends_on:
+      - base-infrastructure
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "service.name=service-monitor"
+      - "service.description=Service Health and Performance Monitor"
 
 networks:
-  monitoring-network:
+  unified-network:
     driver: bridge
-    name: intune-monitoring
+    name: intune-rustdesk-unified
     ipam:
       driver: default
       config:
-        - subnet: 172.20.0.0/16
-          gateway: 172.20.0.1
+        - subnet: 172.30.0.0/16
+          gateway: 172.30.0.1
   
-  rustdesk-network:
+  external-network:
     driver: bridge
-    name: rustdesk-internal
+    name: external-access
     ipam:
       driver: default
       config:
-        - subnet: 172.21.0.0/16
-          gateway: 172.21.0.1
-  
-  bridge-network:
-    driver: bridge
-    name: shared-bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.22.0.0/16
-          gateway: 172.22.0.1
+        - subnet: 172.31.0.0/16
+          gateway: 172.31.0.1
 
 volumes:
-  # Dashboard data storage
+  # Base server data - shared across all services
+  base-server-data:
+    driver: local
+    name: base-server-data
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "volume.purpose=base-infrastructure"
+  
+  # Dashboard specific data
   dashboard-data:
     driver: local
-    name: intune-dashboard-data
+    name: dashboard-data
     labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "com.docker.compose.project=intune-rustdesk-unified"
       - "volume.purpose=dashboard-data"
   
-  # RustDesk server data storage
-  rustdesk-signal-data:
+  # Dashboard configuration (shared)
+  dashboard-config:
     driver: local
-    name: rustdesk-signal-data
+    name: dashboard-config
     labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
-      - "volume.purpose=rustdesk-signal"
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "volume.purpose=dashboard-config"
   
-  rustdesk-relay-data:
+  # RustDesk encryption keys (shared across RustDesk services)
+  rustdesk-keys:
     driver: local
-    name: rustdesk-relay-data
+    name: rustdesk-keys
     labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
-      - "volume.purpose=rustdesk-relay"
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "volume.purpose=rustdesk-security"
   
   # Proxy logs
   proxy-logs:
     driver: local
     name: proxy-logs
     labels:
-      - "com.docker.compose.project=intune-rustdesk-stack"
+      - "com.docker.compose.project=intune-rustdesk-unified"
       - "volume.purpose=proxy-logs"
+  
+  # SSL certificates
+  ssl-certs:
+    driver: local
+    name: ssl-certs
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "volume.purpose=ssl-certificates"
+  
+  # Prometheus monitoring data
+  prometheus-data:
+    driver: local
+    name: prometheus-data
+    labels:
+      - "com.docker.compose.project=intune-rustdesk-unified"
+      - "volume.purpose=monitoring-data"
 
 # Configuration for environment variables
 # Create a .env file with the following variables:
@@ -168,7 +230,8 @@ volumes:
 # # Timezone
 # TZ=America/New_York
 #
-# # Dashboard Configuration
+# # Base Server Configuration
+# BASE_SERVER_PORT=8080
 # DASHBOARD_PORT=8000
 #
 # # RustDesk Configuration
@@ -183,21 +246,51 @@ volumes:
 # # Security
 # RUSTDESK_KEY=your-encryption-key-here
 # RUSTDESK_PUB_KEY=your-public-key-here
+#
+# # Monitoring
+# PROMETHEUS_PORT=9090
 
-# Usage Instructions:
+# Usage Instructions for Extended Infrastructure Approach:
+# 
+# 1. This configuration uses dockerariff/rust-selfhost-server as the base infrastructure
+# 2. Additional services extend the base server rather than creating separate containers
+# 3. Network mode "service:base-infrastructure" allows extensions to share the same network stack
+# 4. Shared volumes ensure consistent data across all service extensions
+# 
+# Deployment Steps:
 # 1. Save this file as docker-compose-full.yml
-# 2. Create .env file with your configuration
-# 3. Run: docker-compose -f docker-compose-full.yml up -d
-# 4. Access dashboard at: http://localhost:8000
-# 5. Configure RustDesk clients to use:
-#    - Signal server: your-server-ip:21116
-#    - Relay server: your-server-ip:21117
-#
-# To generate RustDesk keys:
-# docker run --rm rustdesk/rustdesk-server:latest --gen-keys
-#
+# 2. Create nginx-unified.conf for reverse proxy configuration
+# 3. Create prometheus-unified.yml for monitoring configuration
+# 4. Create .env file with your specific configuration
+# 5. Run: docker-compose -f docker-compose-full.yml up -d
+# 
+# Access Points:
+# - Dashboard: http://localhost:8000
+# - Base server: http://localhost:8080
+# - Proxy (unified access): http://localhost:80
+# - Monitoring: http://localhost:9090
+# 
+# RustDesk Client Configuration:
+# - Signal server: your-server-ip:21116
+# - Relay server: your-server-ip:21117
+# - File transfer: your-server-ip:21115
+# 
+# Benefits of This Approach:
+# - Leverages existing infrastructure (rust-selfhost-server)
+# - Reduces resource overhead compared to separate containers
+# - Maintains service isolation while sharing base infrastructure
+# - Easier to scale and manage as a unified system
+# - Cost-effective use of existing container infrastructure
+# 
+# Security Considerations:
+# - All RustDesk services share the same encryption keys
+# - Network isolation between internal and external access
+# - Health monitoring for all critical services
+# - Centralized logging and monitoring through Prometheus
+# 
 # For production deployment:
-# - Update network subnets to avoid conflicts
-# - Configure proper SSL certificates
-# - Set up firewall rules for ports 21115, 21116, 21117
-# - Monitor resource usage and scale as needed
+# - Update network subnets to avoid conflicts with existing infrastructure
+# - Configure proper SSL certificates in ssl-certs volume
+# - Set up firewall rules for ports 21115, 21116, 21117, 8000, 8080
+# - Monitor resource usage and scale base infrastructure as needed
+# - Consider using Docker Swarm or Kubernetes for high availability
