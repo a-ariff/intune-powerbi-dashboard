@@ -1,6 +1,8 @@
 name: "CodeQL Analysis"
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
@@ -15,6 +17,7 @@ jobs:
     # Skip draft PRs and external forks
     if: |
       github.event_name == 'schedule' ||
+      github.event_name == 'push' ||
       (github.event_name == 'pull_request' &&
        github.event.pull_request.draft == false &&
        github.event.pull_request.head.repo.full_name == github.repository)
@@ -37,20 +40,21 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        queries: security-and-quality
-        paths-ignore: |
-          dist
-          build
-          node_modules
         config: |
-          name: "Optimized CodeQL Config"
-          disable-default-queries: false
-          query-filters:
-            - exclude:
-                problem.severity: "note"
-        
+          paths-ignore:
+            - '**/*.min.js'
+            - '**/node_modules/**'
+            - '**/dist/**'
+            - '**/build/**'
+            - '**/*.d.ts'
+            - '**/coverage/**'
+            - '**/*.test.js'
+            - '**/*.spec.js'
+    
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+      
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
-        upload: true
