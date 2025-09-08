@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Link Checker
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v2.0.2
         with:
           # Check all markdown files in docs/ and README.md
           args: --config .github/lychee.toml --verbose --no-progress --exclude-loopback --exclude-private --exclude-mail --accept 200,204,429 'README.md' 'docs/**/*.md'
