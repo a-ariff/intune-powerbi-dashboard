@@ -1,11 +1,9 @@
 # API Reference
 
 ## Overview
-
 This document provides technical implementation details for the Microsoft Graph API endpoints used in the Intune Power BI Dashboard.
 
 ## Table of Contents
-
 - [Authentication](#authentication)
 - [Endpoints](#endpoints)
 - [Response Formats](#response-formats)
@@ -16,7 +14,6 @@ This document provides technical implementation details for the Microsoft Graph 
 ## Authentication
 
 ### Service Principal Configuration
-
 The dashboard uses Microsoft Graph API with service principal authentication:
 
 ```
@@ -29,143 +26,115 @@ Permissions Required:
 - Directory.Read.All
 ```
 
-### Authentication Flow
+### Token Acquisition
+```
+Endpoint: https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token
+Method: POST
+Content-Type: application/x-www-form-urlencoded
 
-1. **Client Credentials Flow**
-   - Tenant ID
-   - Client ID
-   - Client Secret
-   - Scope: `https://graph.microsoft.com/.default` (OAuth scope string for Microsoft Graph permissions - see [Microsoft Graph permissions reference](https://docs.microsoft.com/en-us/graph/permissions-reference))
-
-2. **Token Acquisition**
-   - POST to: `https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token`
-   - Content-Type: application/x-www-form-urlencoded
+Parameters:
+- grant_type: client_credentials
+- client_id: {your-client-id}
+- client_secret: {your-client-secret}
+- scope: https://graph.microsoft.com/.default
+```
 
 ## Endpoints
 
-### Device Management
-
-#### Get All Managed Devices
-
+### Managed Devices
 ```
 GET https://graph.microsoft.com/v1.0/deviceManagement/managedDevices
 ```
 
-**Response Fields:**
-- id: Device identifier
-- deviceName: Display name
-- operatingSystem: OS type
-- complianceState: Compliance status
-- lastSyncDateTime: Last sync timestamp
+Returns information about all managed devices including:
+- Device name and model
+- Operating system version
+- Compliance status
+- Last sync time
+- User assignments
 
-#### Get Device Compliance Policies
-
+### Device Compliance Policies
 ```
 GET https://graph.microsoft.com/v1.0/deviceManagement/deviceCompliancePolicies
 ```
 
-#### Get Device Configurations
-
+### Device Configuration Profiles
 ```
 GET https://graph.microsoft.com/v1.0/deviceManagement/deviceConfigurations
 ```
 
-### Application Management
-
-#### Get Mobile Apps
-
+### Mobile Applications
 ```
 GET https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps
-```
-
-#### Get App Installation Status
-
-```
-GET https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/{app-id}/deviceStatuses
-```
-
-### User and Group Management
-
-#### Get Users
-
-```
-GET https://graph.microsoft.com/v1.0/users
-```
-
-#### Get Groups
-
-```
-GET https://graph.microsoft.com/v1.0/groups
 ```
 
 ## Response Formats
 
 ### Standard Response Structure
-
 ```json
 {
-  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#...",
-  "@odata.count": 100,
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#deviceManagement/managedDevices",
+  "@odata.count": 150,
   "value": [
     {
-      "id": "string",
-      "property1": "value1",
-      "property2": "value2"
+      "id": "device-id-here",
+      "userId": "user-id-here",
+      "deviceName": "Device Name",
+      "managedDeviceOwnerType": "company",
+      "enrolledDateTime": "2023-01-01T00:00:00Z",
+      "lastSyncDateTime": "2023-12-01T00:00:00Z",
+      "operatingSystem": "Windows",
+      "osVersion": "10.0.19045",
+      "deviceType": "desktop",
+      "complianceState": "compliant"
     }
-  ],
-  "@odata.nextLink": "https://graph.microsoft.com/v1.0/..."
-}
-```
-
-### Error Response
-
-```json
-{
-  "error": {
-    "code": "string",
-    "message": "string",
-    "details": []
-  }
+  ]
 }
 ```
 
 ## Error Handling
 
-### Common Error Codes
+### Common HTTP Status Codes
+- `200 OK`: Request successful
+- `401 Unauthorized`: Invalid or expired token
+- `403 Forbidden`: Insufficient permissions
+- `404 Not Found`: Resource not found
+- `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Server error
 
-• 400 Bad Request: Invalid request syntax  
-• 401 Unauthorized: Authentication failed  
-• 403 Forbidden: Insufficient permissions  
-• 404 Not Found: Resource not found  
-• 429 Too Many Requests: Rate limit exceeded  
-• 500 Internal Server Error: Server error
-
-### Retry Logic
-
-- Implement exponential backoff
-- Maximum retry attempts: 3
-- Retry on: 429, 502, 503, 504 status codes
+### Error Response Format
+```json
+{
+  "error": {
+    "code": "Forbidden",
+    "message": "Insufficient privileges to complete the operation.",
+    "innerError": {
+      "date": "2023-12-01T00:00:00",
+      "request-id": "request-id-here"
+    }
+  }
+}
+```
 
 ## Rate Limits
 
-• Per Application: 10,000 requests per 10 minutes  
-• Per User: 1,000 requests per 10 minutes  
-• Batch Requests: Up to 20 individual requests
+### Microsoft Graph Service Limits
+- **Per application per tenant**: 10,000 requests per 10 minutes
+- **Per application across all tenants**: 100,000 requests per 10 minutes
+- **Per tenant for all applications**: 1,000,000 requests per 10 minutes
+
+### Best Practices
+- Implement exponential backoff for 429 responses
+- Use delta queries for incremental updates
+- Batch requests when possible
+- Cache responses appropriately
 
 ## Examples
 
-### PowerBI M Query Example
-
+### Power Query (M) Example
 ```m
 let
-    // Authentication
-    TokenUrl = "https://login.microsoftonline.com/" & TenantId & "/oauth2/v2.0/token",
-    TokenResponse = Json.Document(Web.Contents(TokenUrl, [
-        Content = Text.ToBinary("grant_type=client_credentials&client_id=" & ClientId & "&client_secret=" & ClientSecret & "&scope=https://graph.microsoft.com/.default")
-    ])),
-    AccessToken = TokenResponse[access_token],
-    
-    // API Request
+    AccessToken = "your-access-token-here",
     Headers = [#"Authorization" = "Bearer " & AccessToken],
     ApiUrl = "https://graph.microsoft.com/v1.0/deviceManagement/managedDevices",
     Response = Json.Document(Web.Contents(ApiUrl, [Headers = Headers]))
@@ -174,7 +143,6 @@ in
 ```
 
 ### PowerShell Example
-
 ```powershell
 # Get Access Token
 $tokenUrl = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token"
@@ -194,7 +162,6 @@ $devices = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/deviceManage
 ```
 
 ## Additional Resources
-
-- [Microsoft Graph API Documentation](https://docs.microsoft.com/en-us/graph/)
+- [Microsoft Graph API Documentation](https://learn.microsoft.com/en-us/graph/)
 - [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
-- [Power BI REST API](https://docs.microsoft.com/en-us/rest/api/power-bi/)
+- [Power BI REST API](https://learn.microsoft.com/en-us/rest/api/power-bi/)
