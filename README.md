@@ -134,7 +134,7 @@ This integrated solution is ideal for IT administrators who need both comprehens
 - 🐙 GitHub: [@a-ariff](https://github.com/a-ariff)
 - 💼 LinkedIn: [Connect with Ariff Mohamed](https://www.linkedin.com/in/ariff-mohamed/)
 - 🌐 Portfolio: [Professional Projects](https://a-ariff.github.io/intune-powerbi-dashboard/)
-- 📧 Email: [Contact for Consulting](mailto:contact@a-ariff.dev)
+- 📧 Email: [Contact for Consulting](mailto:contact@ariff.dev)
 
 ---
 
